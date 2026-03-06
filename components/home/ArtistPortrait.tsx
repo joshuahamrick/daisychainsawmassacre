@@ -1,40 +1,42 @@
 import Image from "next/image";
 
-// Replace /images/portrait/portrait.jpg with the actual portrait image
 const PORTRAIT_PATH = "/images/portrait/portrait.jpg";
-const HAS_PORTRAIT = false; // Set to true once you add the image
+const HAS_PORTRAIT = false;
 
 export default function ArtistPortrait() {
   return (
-    <div className="w-full">
-      <div
-        className="relative w-full aspect-[3/4] rounded-sm overflow-hidden"
-        style={{ backgroundColor: "#1A1A1A" }}
-      >
-        {HAS_PORTRAIT ? (
-          <Image
-            src={PORTRAIT_PATH}
-            alt="Artist portrait"
-            fill
-            className="object-cover"
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        ) : (
-          /* Placeholder shown until portrait image is added */
-          <div
-            className="absolute inset-0 flex items-end p-6"
-            style={{
-              background:
-                "linear-gradient(160deg, #1f1a14 0%, #2a2018 50%, #1A1A1A 100%)",
-            }}
-          >
-            <p className="text-xs tracking-widest uppercase" style={{ color: "#6B6B6B" }}>
-              Portrait — add /public/images/portrait/portrait.jpg
-            </p>
-          </div>
-        )}
-      </div>
+    <div
+      className="relative flex-shrink-0 overflow-hidden"
+      style={{
+        width: 280,
+        height: 280,
+        border: "3px solid #ff00cc",
+        boxShadow: "0 0 20px rgba(255, 0, 204, 0.45), inset 0 0 16px rgba(255, 0, 204, 0.05)",
+        backgroundColor: "#180025",
+      }}
+    >
+      {HAS_PORTRAIT ? (
+        <Image
+          src={PORTRAIT_PATH}
+          alt="Artist portrait"
+          fill
+          className="object-cover"
+          priority
+          sizes="280px"
+        />
+      ) : (
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(135deg, #1a0030 0%, #2d0050 50%, #180025 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span style={{ fontSize: "3.5rem", opacity: 0.2, color: "#ff00cc" }}>✦</span>
+        </div>
+      )}
     </div>
   );
 }

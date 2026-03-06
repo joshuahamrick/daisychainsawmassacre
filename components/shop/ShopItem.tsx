@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ShopItem as ShopItemType } from "@/types";
 
-const HAS_IMAGES = false; // Set to true once shop images are added
+const HAS_IMAGES = false;
 
 interface ShopItemProps {
   item: ShopItemType;
@@ -12,11 +12,23 @@ interface ShopItemProps {
 
 export default function ShopItem({ item }: ShopItemProps) {
   return (
-    <div className="flex flex-col" style={{ color: "#F0EDE8" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid #3d0060",
+        backgroundColor: "#100018",
+      }}
+    >
       {/* Image */}
       <div
-        className="relative w-full aspect-square rounded-sm overflow-hidden mb-4"
-        style={{ backgroundColor: "#1A1A1A" }}
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: "1/1",
+          overflow: "hidden",
+          backgroundColor: "#180025",
+        }}
       >
         {HAS_IMAGES ? (
           <Image
@@ -28,78 +40,128 @@ export default function ShopItem({ item }: ShopItemProps) {
           />
         ) : (
           <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(135deg, #1f1a14 0%, #1A1A1A 100%)" }}
-          />
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(135deg, #1a0030 0%, #180025 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ fontSize: "2rem", opacity: 0.15, color: "#ff00cc" }}>✦</span>
+          </div>
         )}
 
         {!item.available && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(13, 0, 16, 0.75)",
+            }}
+          >
             <span
-              className="text-xs tracking-widest uppercase"
-              style={{ color: "#6B6B6B" }}
+              style={{
+                fontSize: "0.7rem",
+                letterSpacing: "4px",
+                textTransform: "uppercase",
+                color: "#8855aa",
+                fontFamily: "var(--font-courier), 'Courier New', monospace",
+                border: "1px solid #8855aa",
+                padding: "0.25rem 0.75rem",
+              }}
             >
-              Sold
+              SOLD
             </span>
           </div>
         )}
       </div>
 
       {/* Info */}
-      <p
-        className="text-base font-medium mb-1"
-        style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-      >
-        {item.title}
-      </p>
-      <p className="text-sm mb-3" style={{ color: "#6B6B6B" }}>
-        £{item.price}
-      </p>
-
-      {/* Actions */}
-      <div className="flex gap-3">
-        {item.available && (
-          <Link
-            href={item.etsyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs tracking-widest uppercase px-4 py-2 transition-colors"
-            style={{
-              border: "1px solid #C9A96E",
-              color: "#C9A96E",
-              borderRadius: "2px",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#C9A96E";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#111111";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#C9A96E";
-            }}
-          >
-            Buy on Etsy
-          </Link>
-        )}
-        <Link
-          href={`/contact?subject=Commission`}
-          className="text-xs tracking-widest uppercase px-4 py-2 transition-colors"
+      <div style={{ padding: "0.75rem 1rem", borderTop: "1px solid #3d0060" }}>
+        <p
           style={{
-            border: "1px solid #2a2a2a",
-            color: "#6B6B6B",
-            borderRadius: "2px",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "#6B6B6B";
-            (e.currentTarget as HTMLAnchorElement).style.color = "#F0EDE8";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2a2a2a";
-            (e.currentTarget as HTMLAnchorElement).style.color = "#6B6B6B";
+            fontFamily: "var(--font-boogaloo), 'Arial Black', sans-serif",
+            fontSize: "1rem",
+            color: "#f5f0ff",
+            marginBottom: "0.25rem",
           }}
         >
-          Enquire
-        </Link>
+          {item.title}
+        </p>
+        <p
+          style={{
+            fontSize: "0.9rem",
+            color: "#ff00cc",
+            fontFamily: "var(--font-courier), 'Courier New', monospace",
+            textShadow: "0 0 6px rgba(255, 0, 204, 0.4)",
+            marginBottom: "0.75rem",
+            fontWeight: "bold",
+          }}
+        >
+          £{item.price}
+        </p>
+
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          {item.available && (
+            <Link
+              href={item.etsyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: "0.65rem",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                padding: "0.4rem 0.75rem",
+                border: "1px solid #ff00cc",
+                color: "#ff00cc",
+                textDecoration: "none",
+                fontFamily: "var(--font-courier), 'Courier New', monospace",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#ff00cc";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#0d0010";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 12px #ff00cc";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#ff00cc";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+              }}
+            >
+              Buy on Etsy
+            </Link>
+          )}
+          <Link
+            href="/contact?subject=Commission"
+            style={{
+              fontSize: "0.65rem",
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              padding: "0.4rem 0.75rem",
+              border: "1px solid #3d0060",
+              color: "#8855aa",
+              textDecoration: "none",
+              fontFamily: "var(--font-courier), 'Courier New', monospace",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#8855aa";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#f5f0ff";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#3d0060";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#8855aa";
+            }}
+          >
+            Enquire
+          </Link>
+        </div>
       </div>
     </div>
   );

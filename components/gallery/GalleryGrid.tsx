@@ -19,21 +19,25 @@ export default function GalleryGrid() {
   return (
     <div>
       {/* Category filters */}
-      <div className="flex gap-6 mb-8 flex-wrap">
+      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2rem", flexWrap: "wrap" }}>
         {CATEGORIES.map((cat) => {
           const isActive = cat === activeCategory;
           return (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className="text-sm tracking-wide pb-1 transition-colors relative"
               style={{
-                color: isActive ? "#C9A96E" : "#6B6B6B",
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                background: "none",
-                border: "none",
+                fontFamily: "var(--font-courier), 'Courier New', monospace",
+                fontSize: "0.72rem",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                padding: "0.4rem 1rem",
+                border: isActive ? "1px solid #ff00cc" : "1px solid #3d0060",
+                backgroundColor: isActive ? "rgba(255, 0, 204, 0.12)" : "transparent",
+                color: isActive ? "#ff00cc" : "#8855aa",
                 cursor: "pointer",
-                borderBottom: isActive ? "1px solid #C9A96E" : "1px solid transparent",
+                boxShadow: isActive ? "0 0 10px rgba(255, 0, 204, 0.25)" : "none",
+                transition: "all 0.2s",
               }}
             >
               {cat}
@@ -50,8 +54,17 @@ export default function GalleryGrid() {
       </div>
 
       {filtered.length === 0 && (
-        <p className="text-center py-16" style={{ color: "#6B6B6B" }}>
-          No works in this category yet.
+        <p
+          style={{
+            textAlign: "center",
+            padding: "4rem 0",
+            color: "#8855aa",
+            fontFamily: "var(--font-courier), 'Courier New', monospace",
+            letterSpacing: "2px",
+            fontSize: "0.85rem",
+          }}
+        >
+          ✦ no works in this category yet ✦
         </p>
       )}
     </div>

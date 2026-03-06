@@ -15,46 +15,71 @@ export default function Navbar() {
 
   return (
     <nav
-      className="sticky top-0 z-50 border-b"
       style={{
-        backgroundColor: "rgba(17, 17, 17, 0.92)",
-        backdropFilter: "blur(8px)",
-        borderColor: "#2a2a2a",
+        backgroundColor: "#0d0010",
+        borderBottom: "2px solid #ff00cc",
+        boxShadow: "0 2px 24px rgba(255, 0, 204, 0.35)",
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Brand name */}
+      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: "60px",
+          }}
+        >
+          {/* Brand */}
           <Link
             href="/"
-            className="font-heading text-lg tracking-wide hover:opacity-80 transition-opacity"
-            style={{ color: "#F0EDE8", fontFamily: "var(--font-playfair), Georgia, serif" }}
+            style={{
+              fontFamily: "var(--font-boogaloo), 'Arial Black', sans-serif",
+              fontSize: "1.35rem",
+              color: "#ff00cc",
+              textDecoration: "none",
+              textShadow: "0 0 10px #ff00cc, 0 0 24px rgba(255, 0, 204, 0.4)",
+              letterSpacing: "1px",
+            }}
           >
-            <span className="hidden sm:inline">daisychainsawmassacre</span>
-            <span className="sm:hidden">DCM</span>
+            <span className="hidden sm:inline">✦ daisychainsawmassacre ✦</span>
+            <span className="sm:hidden">✦ DCM ✦</span>
           </Link>
 
           {/* Nav links */}
-          <div className="flex items-center gap-6 sm:gap-8">
+          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm tracking-wide transition-colors relative"
                   style={{
-                    fontFamily: "var(--font-inter), system-ui, sans-serif",
-                    color: isActive ? "#C9A96E" : "#F0EDE8",
+                    fontFamily: "var(--font-courier), 'Courier New', monospace",
+                    fontSize: "0.8rem",
+                    color: isActive ? "#00e5ff" : "#ff00cc",
+                    textDecoration: isActive ? "underline" : "none",
+                    letterSpacing: "2px",
+                    textShadow: isActive ? "0 0 8px #00e5ff" : "none",
+                    textTransform: "uppercase",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLAnchorElement).style.textDecoration = "underline";
+                      (e.currentTarget as HTMLAnchorElement).style.textShadow = "0 0 8px #ff00cc";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLAnchorElement).style.textDecoration = "none";
+                      (e.currentTarget as HTMLAnchorElement).style.textShadow = "none";
+                    }
                   }}
                 >
                   {link.label}
-                  {isActive && (
-                    <span
-                      className="absolute -bottom-1 left-0 right-0 h-px"
-                      style={{ backgroundColor: "#C9A96E" }}
-                    />
-                  )}
                 </Link>
               );
             })}

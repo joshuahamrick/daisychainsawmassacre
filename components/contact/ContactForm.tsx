@@ -60,41 +60,68 @@ export default function ContactForm() {
   };
 
   const fieldStyle = {
-    backgroundColor: "#1A1A1A",
-    border: "1px solid #2a2a2a",
-    color: "#F0EDE8",
-    borderRadius: "4px",
-    padding: "0.75rem 1rem",
+    backgroundColor: "#0d0010",
+    border: "1px solid #3d0060",
+    color: "#f5f0ff",
+    borderRadius: "0",
+    padding: "0.6rem 0.9rem",
     width: "100%",
     outline: "none",
-    fontFamily: "var(--font-inter), system-ui, sans-serif",
-    fontSize: "0.9rem",
+    fontFamily: "var(--font-courier), 'Courier New', Courier, monospace",
+    fontSize: "0.85rem",
+  };
+
+  const labelStyle = {
+    fontSize: "0.68rem",
+    letterSpacing: "2px",
+    textTransform: "uppercase" as const,
+    color: "#8855aa",
+    fontFamily: "var(--font-courier), 'Courier New', monospace",
   };
 
   if (status === "success") {
     return (
       <div
-        className="p-8 rounded-sm text-center"
-        style={{ backgroundColor: "#1A1A1A", border: "1px solid #2a2a2a" }}
+        style={{
+          padding: "2rem",
+          border: "1px solid #ff00cc",
+          backgroundColor: "#100018",
+          textAlign: "center",
+          boxShadow: "0 0 24px rgba(255, 0, 204, 0.3)",
+          maxWidth: "600px",
+        }}
       >
         <p
-          className="text-xl mb-2"
-          style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#C9A96E" }}
+          style={{
+            fontFamily: "var(--font-boogaloo), 'Arial Black', sans-serif",
+            fontSize: "1.6rem",
+            color: "#ff00cc",
+            textShadow: "0 0 12px #ff00cc",
+            marginBottom: "0.5rem",
+          }}
         >
-          Message sent.
+          ✦ Message sent ✦
         </p>
-        <p style={{ color: "#6B6B6B" }}>Thank you — I'll be in touch soon.</p>
+        <p
+          style={{
+            color: "#8855aa",
+            fontFamily: "var(--font-courier), 'Courier New', monospace",
+            fontSize: "0.85rem",
+          }}
+        >
+          Thank you — I&apos;ll be in touch soon.
+        </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-xl">
-      {/* Name */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm tracking-wide" style={{ color: "#6B6B6B" }}>
-          Name
-        </label>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "600px" }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+        <label style={labelStyle}>Name</label>
         <input
           type="text"
           name="name"
@@ -103,16 +130,13 @@ export default function ContactForm() {
           required
           placeholder="Your name"
           style={fieldStyle}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A96E")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "#2a2a2a")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#ff00cc")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "#3d0060")}
         />
       </div>
 
-      {/* Email */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm tracking-wide" style={{ color: "#6B6B6B" }}>
-          Email
-        </label>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+        <label style={labelStyle}>Email</label>
         <input
           type="email"
           name="email"
@@ -121,41 +145,35 @@ export default function ContactForm() {
           required
           placeholder="you@example.com"
           style={fieldStyle}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A96E")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "#2a2a2a")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#ff00cc")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "#3d0060")}
         />
       </div>
 
-      {/* Subject */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm tracking-wide" style={{ color: "#6B6B6B" }}>
-          Subject
-        </label>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+        <label style={labelStyle}>Subject</label>
         <select
           name="subject"
           value={form.subject}
           onChange={handleChange}
           required
           style={{ ...fieldStyle, appearance: "none", cursor: "pointer" }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A96E")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "#2a2a2a")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#ff00cc")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "#3d0060")}
         >
           <option value="" disabled>
             Select a subject
           </option>
           {SUBJECTS.map((s) => (
-            <option key={s} value={s}>
+            <option key={s} value={s} style={{ backgroundColor: "#180025" }}>
               {s}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Message */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm tracking-wide" style={{ color: "#6B6B6B" }}>
-          Message
-        </label>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+        <label style={labelStyle}>Message</label>
         <textarea
           name="message"
           value={form.message}
@@ -164,31 +182,55 @@ export default function ContactForm() {
           rows={6}
           placeholder="Your message..."
           style={{ ...fieldStyle, resize: "vertical" }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#C9A96E")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "#2a2a2a")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#ff00cc")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "#3d0060")}
         />
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-2 px-8 py-3 text-sm tracking-widest uppercase transition-all self-start"
         style={{
-          backgroundColor: status === "sending" ? "#2a2a2a" : "#C9A96E",
-          color: "#111111",
-          border: "none",
-          borderRadius: "2px",
+          backgroundColor: "transparent",
+          color: status === "sending" ? "#8855aa" : "#ff00cc",
+          border: `1px solid ${status === "sending" ? "#3d0060" : "#ff00cc"}`,
+          padding: "0.75rem 2rem",
+          fontSize: "0.7rem",
+          letterSpacing: "3px",
+          textTransform: "uppercase",
           cursor: status === "sending" ? "not-allowed" : "pointer",
-          fontFamily: "var(--font-inter), system-ui, sans-serif",
-          fontWeight: 500,
+          fontFamily: "var(--font-courier), 'Courier New', monospace",
+          alignSelf: "flex-start",
+          boxShadow: status === "sending" ? "none" : "0 0 10px rgba(255, 0, 204, 0.25)",
+          transition: "all 0.2s",
+        }}
+        onMouseEnter={(e) => {
+          if (status !== "sending") {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+              "rgba(255, 0, 204, 0.12)";
+            (e.currentTarget as HTMLButtonElement).style.boxShadow =
+              "0 0 20px rgba(255, 0, 204, 0.5)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (status !== "sending") {
+            (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
+            (e.currentTarget as HTMLButtonElement).style.boxShadow =
+              "0 0 10px rgba(255, 0, 204, 0.25)";
+          }
         }}
       >
-        {status === "sending" ? "Sending..." : "Send Message"}
+        {status === "sending" ? "Sending..." : "✦ Send Message ✦"}
       </button>
 
       {status === "error" && (
-        <p className="text-sm" style={{ color: "#e06060" }}>
+        <p
+          style={{
+            fontSize: "0.8rem",
+            color: "#ff4466",
+            fontFamily: "var(--font-courier), 'Courier New', monospace",
+          }}
+        >
           Something went wrong. Please try again or email directly.
         </p>
       )}

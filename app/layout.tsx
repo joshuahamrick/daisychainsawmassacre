@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Boogaloo, Courier_Prime } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const boogaloo = Boogaloo({
+  variable: "--font-boogaloo",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const courierPrime = Courier_Prime({
+  variable: "--font-courier",
   subsets: ["latin"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -27,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+      <body className={`${boogaloo.variable} ${courierPrime.variable}`}>
         <Navbar />
         <main>{children}</main>
       </body>

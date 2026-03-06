@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import type { GalleryItem as GalleryItemType } from "@/types";
 
-const HAS_IMAGES = false; // Set to true once gallery images are added
+const HAS_IMAGES = false;
 
 interface GalleryItemProps {
   item: GalleryItemType;
@@ -15,45 +15,79 @@ export default function GalleryItem({ item }: GalleryItemProps) {
 
   return (
     <div
-      className="relative overflow-hidden rounded-sm mb-4 break-inside-avoid cursor-pointer"
-      style={{ backgroundColor: "#1A1A1A" }}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        marginBottom: "1rem",
+        breakInside: "avoid",
+        cursor: "pointer",
+        border: hovered ? "2px solid #ff00cc" : "2px solid #3d0060",
+        boxShadow: hovered ? "0 0 20px rgba(255, 0, 204, 0.45)" : "none",
+        transition: "border-color 0.3s, box-shadow 0.3s",
+        backgroundColor: "#180025",
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="aspect-[3/4] relative">
+      <div style={{ aspectRatio: "3/4", position: "relative" }}>
         {HAS_IMAGES ? (
           <Image
             src={item.imagePath}
             alt={item.title}
             fill
-            className="object-cover transition-transform duration-500"
-            style={{ transform: hovered ? "scale(1.03)" : "scale(1)" }}
+            className="object-cover"
+            style={{
+              transform: hovered ? "scale(1.03)" : "scale(1)",
+              transition: "transform 0.5s",
+            }}
             sizes="(max-width: 768px) 50vw, 33vw"
           />
         ) : (
           <div
-            className="absolute inset-0"
             style={{
-              background: "linear-gradient(135deg, #1f1a14 0%, #1A1A1A 100%)",
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(135deg, #1a0030 0%, #180025 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <span style={{ fontSize: "1.5rem", opacity: 0.18, color: "#ff00cc" }}>✦</span>
+          </div>
         )}
 
         {/* Hover overlay */}
         <div
-          className="absolute inset-0 flex flex-col justify-end p-4 transition-opacity duration-300"
           style={{
-            background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)",
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, rgba(13, 0, 16, 0.92) 0%, transparent 60%)",
             opacity: hovered ? 1 : 0,
+            transition: "opacity 0.3s",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            padding: "0.75rem",
           }}
         >
           <p
-            className="text-sm font-medium"
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#F0EDE8" }}
+            style={{
+              fontFamily: "var(--font-boogaloo), 'Arial Black', sans-serif",
+              fontSize: "0.95rem",
+              color: "#f5f0ff",
+            }}
           >
             {item.title}
           </p>
-          <p className="text-xs mt-0.5" style={{ color: "#C9A96E" }}>
+          <p
+            style={{
+              fontSize: "0.65rem",
+              color: "#ff00cc",
+              fontFamily: "var(--font-courier), 'Courier New', monospace",
+              textShadow: "0 0 6px #ff00cc",
+            }}
+          >
             {item.medium} — {item.year}
           </p>
         </div>

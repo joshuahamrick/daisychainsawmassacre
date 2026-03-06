@@ -1,116 +1,106 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import CarouselArrow from "@/components/ui/CarouselArrow";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { carouselPieces } from "@/data/carouselPieces";
 
-const variants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 300 : -300,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -300 : 300,
-    opacity: 0,
-  }),
-};
+const COLS = 4;
+const ROWS = 2;
+const VISIBLE = COLS * ROWS; // 8
+
+function ArrowButton({ side, onClick }: { side: "left" | "right"; onClick: () => void }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      aria-label={side === "left" ? "Previous" : "Next"}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="absolute top-0 bottom-0 flex items-center z-10"
+      style={{
+        [side]: 0,
+        width: `${100 / COLS}%`,
+        justifyContent: side === "left" ? "flex-start" : "flex-end",
+        paddingLeft: side === "left" ? "10px" : "0",
+        paddingRight: side === "right" ? "10px" : "0",
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+      }}
+    >
+      <span
+        className="flex items-center justify-center w-9 h-9"
+        style={{
+          backgroundColor: hovered ? "rgba(13, 0, 16, 0.85)" : "rgba(13, 0, 16, 0.4)",
+          border: "1px solid #ff00cc",
+          color: hovered ? "#ff00cc" : "rgba(255, 0, 204, 0.45)",
+          boxShadow: hovered ? "0 0 10px rgba(255, 0, 204, 0.6)" : "none",
+          transition: "background-color 0.15s, color 0.15s, box-shadow 0.15s",
+        }}
+      >
+        {side === "left" ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+      </span>
+    </button>
+  );
+}
 
 export default function ArtworkCarousel() {
-  const [[currentIndex, direction], setPage] = useState([0, 0]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
 
-  const paginate = (newDirection: number) => {
-    const newIndex =
-      (currentIndex + newDirection + carouselPieces.length) % carouselPieces.length;
-    setPage([newIndex, newDirection]);
+  const canPrev = startIndex > 0;
+  const canNext = startIndex + VISIBLE < carouselPieces.length;
+
+  const go = (dir: 1 | -1) => {
+    if (dir === -1 && !canPrev) return;
+    if (dir === 1 && !canNext) return;
+    setDirection(dir);
+    setStartIndex((i) => i + dir);
   };
 
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") paginate(-1);
-      if (e.key === "ArrowRight") paginate(1);
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [currentIndex]);
-
-  const piece = carouselPieces[currentIndex];
+  const visible = carouselPieces.slice(startIndex, startIndex + VISIBLE);
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      {/* Slide container */}
-      <div
-        className="relative w-full aspect-[3/4] rounded-sm overflow-hidden"
-        style={{ backgroundColor: "#1A1A1A" }}
-      >
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
+    <div className="w-full relative overflow-hidden">
+      <AnimatePresence initial={false} custom={direction} mode="popLayout">
+        <motion.div
+          key={startIndex}
+          custom={direction}
+          initial={{ x: direction > 0 ? 50 : -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: direction > 0 ? -50 : 50, opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+            gridTemplateRows: `repeat(${ROWS}, 1fr)`,
+            border: "2px solid #ff00cc",
+            boxShadow: "0 0 28px rgba(255, 0, 204, 0.25)",
+          }}
+        >
+          {visible.map((piece) => (
             <div
-              className="absolute inset-0 flex items-end"
+              key={piece.id}
+              className="relative aspect-square"
               style={{
-                background:
-                  "linear-gradient(160deg, #181310 0%, #221c10 50%, #1A1A1A 100%)",
+                backgroundColor: "#180025",
+                outline: "1px solid #3d0060",
               }}
             >
-              {/* Placeholder artwork panel — replace with <Image> once images exist */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p
-                  className="text-xs tracking-widest uppercase text-center px-4"
-                  style={{ color: "#2a2a2a" }}
-                >
-                  {piece.imagePath}
-                </p>
-              </div>
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(135deg, #1a0030 0%, #2a0050 60%, #180025 100%)",
+                }}
+              />
             </div>
-          </motion.div>
-        </AnimatePresence>
+          ))}
+        </motion.div>
+      </AnimatePresence>
 
-        <CarouselArrow direction="left" onClick={() => paginate(-1)} />
-        <CarouselArrow direction="right" onClick={() => paginate(1)} />
-      </div>
-
-      {/* Caption */}
-      <div>
-        <p
-          className="text-base font-medium"
-          style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "#F0EDE8" }}
-        >
-          {piece.title}
-        </p>
-        <p className="text-sm mt-0.5" style={{ color: "#6B6B6B" }}>
-          {piece.medium} — {piece.year}
-        </p>
-      </div>
-
-      {/* Dot indicators */}
-      <div className="flex items-center gap-2">
-        {carouselPieces.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setPage([i, i > currentIndex ? 1 : -1])}
-            aria-label={`Go to slide ${i + 1}`}
-            className="w-1.5 h-1.5 rounded-full transition-all"
-            style={{
-              backgroundColor: i === currentIndex ? "#C9A96E" : "#2a2a2a",
-              transform: i === currentIndex ? "scale(1.3)" : "scale(1)",
-            }}
-          />
-        ))}
-      </div>
+      {canPrev && <ArrowButton side="left" onClick={() => go(-1)} />}
+      {canNext && <ArrowButton side="right" onClick={() => go(1)} />}
     </div>
   );
 }

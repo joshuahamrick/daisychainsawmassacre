@@ -1,27 +1,63 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #111111;
-  --color-foreground: #F0EDE8;
-  --color-accent: #C9A96E;
-  --color-muted: #6B6B6B;
-  --color-surface: #1A1A1A;
+  --color-background: #0d0010;
+  --color-foreground: #f5f0ff;
+  --color-accent: #ff00cc;
+  --color-accent2: #00e5ff;
+  --color-accent3: #aaff00;
+  --color-muted: #8855aa;
+  --color-surface: #180025;
+  --color-border: #3d0060;
 
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-inter);
+  --font-heading: var(--font-boogaloo);
+  --font-body: var(--font-courier);
 }
 
 :root {
-  --background: #111111;
-  --foreground: #F0EDE8;
+  --background: #0d0010;
+  --foreground: #f5f0ff;
 }
 
 body {
-  background-color: #111111;
-  color: #F0EDE8;
-  font-family: var(--font-inter), system-ui, sans-serif;
+  background-color: #0d0010;
+  color: #f5f0ff;
+  font-family: var(--font-courier), "Courier New", Courier, monospace;
+  background-image:
+    radial-gradient(ellipse at top left, rgba(120, 0, 180, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(0, 0, 100, 0.2) 0%, transparent 55%);
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-courier), "Courier New", monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  background: #0d0010;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff00cc;
+}
+
+/* Selection */
+::selection {
+  background: #ff00cc;
+  color: #0d0010;
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 0, 204, 0.3); }
+  50% { box-shadow: 0 0 18px rgba(255, 0, 204, 0.7), 0 0 36px rgba(255, 0, 204, 0.3); }
+}
+
+@keyframes online-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.online-dot {
+  animation: online-blink 2s ease-in-out infinite;
 }

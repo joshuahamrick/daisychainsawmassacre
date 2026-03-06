@@ -10,7 +10,7 @@ export const socialLinks: SocialLink[] = [
   {
     id: "tiktok",
     platform: "TikTok",
-    url: "https://tiktok.com/@daisychainsawmassacre",
+    url: "https://tiktok.com/@daisychainsawmass",
     label: "TikTok",
   },
   {
