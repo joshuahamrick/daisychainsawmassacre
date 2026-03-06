@@ -2,30 +2,38 @@
 
 import Link from "next/link";
 import { socialLinks } from "@/data/socialLinks";
-import {
-  InstagramPixel,
-  TiktokPixel,
-  BlueskyPixel,
-  EtsyPixel,
-  MailPixel,
-} from "./PixelSocialIcons";
 
-const ICON_COLOR = "#ff00cc";
+// filter: invert(1) hue-rotate(180deg) + mix-blend-mode: screen
+// → white bg becomes transparent on dark bg, magenta stays magenta
+// → on hover (button goes #ff00cc), icon auto-inverts to light
+const pngIcon = (src: string): React.ReactNode => (
+  <img
+    src={src}
+    alt=""
+    style={{
+      width: 30,
+      height: 30,
+      objectFit: "contain",
+      imageRendering: "pixelated",
+      filter: "invert(1) hue-rotate(180deg)",
+      mixBlendMode: "screen",
+      display: "block",
+    }}
+  />
+);
 
 const iconMap: Record<string, React.ReactNode> = {
-  instagram: <InstagramPixel color={ICON_COLOR} />,
-  tiktok: <TiktokPixel color={ICON_COLOR} />,
-  bluesky: <BlueskyPixel color={ICON_COLOR} />,
-  etsy: <EtsyPixel color={ICON_COLOR} />,
-  email: <MailPixel color={ICON_COLOR} />,
+  instagram: pngIcon("/icons/instagram.png"),
+  tiktok: pngIcon("/icons/tiktok.png"),
+  bluesky: pngIcon("/icons/bluesky.png"),
+  email: pngIcon("/icons/mail.png"),
 };
 
 const iconMapHover: Record<string, React.ReactNode> = {
-  instagram: <InstagramPixel color="#0d0010" />,
-  tiktok: <TiktokPixel color="#0d0010" />,
-  bluesky: <BlueskyPixel color="#0d0010" />,
-  etsy: <EtsyPixel color="#0d0010" />,
-  email: <MailPixel color="#0d0010" />,
+  instagram: pngIcon("/icons/instagram.png"),
+  tiktok: pngIcon("/icons/tiktok.png"),
+  bluesky: pngIcon("/icons/bluesky.png"),
+  email: pngIcon("/icons/mail.png"),
 };
 
 export default function SocialLinks() {
@@ -36,7 +44,7 @@ export default function SocialLinks() {
         border: "3px solid #ff00cc",
         borderTop: "none",
         backgroundColor: "#100018",
-        padding: "0.75rem 1rem",
+        padding: "0.75rem 2rem",
         boxSizing: "border-box",
       }}
     >
@@ -52,7 +60,7 @@ export default function SocialLinks() {
       >
         ✦ find me on ✦
       </p>
-      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {socialLinks.map((link) => {
           const isInternal = link.url.startsWith("/");
           return (

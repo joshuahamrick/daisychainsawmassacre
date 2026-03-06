@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Boogaloo, Courier_Prime } from "next/font/google";
+import { Boogaloo, Courier_Prime, VT323 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 
@@ -17,6 +17,13 @@ const courierPrime = Courier_Prime({
   display: "swap",
 });
 
+const vt323 = VT323({
+  variable: "--font-vt323",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "daisychainsawmassacre",
   description: "Visual artist — paintings, drawings, and original works.",
@@ -29,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${boogaloo.variable} ${courierPrime.variable}`}>
+      <body className={`${boogaloo.variable} ${courierPrime.variable} ${vt323.variable}`}>
         <Navbar />
         <main>{children}</main>
       </body>

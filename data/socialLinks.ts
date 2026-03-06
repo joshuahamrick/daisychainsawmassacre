@@ -16,16 +16,10 @@ export const socialLinks: SocialLink[] = [
   {
     id: "bluesky",
     platform: "Bluesky",
-    url: "https://bsky.app/profile/daisychainsawmassacre.bsky.social",
+    url: "https://bsky.app/profile/daisychainsawmass.bsky.social",
     label: "Bluesky",
   },
-  {
-    id: "etsy",
-    platform: "Etsy",
-    url: "https://etsy.com/shop/daisychainsawmassacre",
-    label: "Etsy",
-  },
-  {
+{
     id: "email",
     platform: "Email",
     url: "/contact",
